@@ -1,19 +1,16 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import { CONSTANTS } from '../config/constant';
 
 dotenv.config();
 
-const MONGO_URI = String(process.env.MONGO_URI);
 
 export const connectDB = async () => {
     try {
-        await mongoose.connect(MONGO_URI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        } as mongoose.ConnectOptions);
-        console.log('MongoDB Connected Successfully');
+        await mongoose.connect(CONSTANTS.DATABASE.MONGO_URI); // No need for options in Mongoose 6+
+        console.log('✅ MongoDB Connected Successfully');
     } catch (error) {
-        console.error('Error connecting to MongoDB:', error);
+        console.error('❌ Error connecting to MongoDB:', error);
         process.exit(1);
     }
 };
