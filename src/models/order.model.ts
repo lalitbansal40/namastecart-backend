@@ -13,7 +13,7 @@ const OrderItemSchema = new Schema(
       required: true,
     },
   },
-  { _id: false }
+  { _id: false } // Don't add _id to each item subdoc
 );
 
 const OrderSchema = new Schema<IOrder>(
@@ -35,9 +35,15 @@ const OrderSchema = new Schema<IOrder>(
       type: String,
       default: "INR",
     },
+    razorpayPaymentLinkId: {
+      type: String,
+      index: true,
+    },
+    razorpayReferenceId: {
+      type: String,
+    },
     razorpayOrderId: {
       type: String,
-      required: true,
     },
     razorpayPaymentId: {
       type: String,
@@ -45,11 +51,26 @@ const OrderSchema = new Schema<IOrder>(
     razorpaySignature: {
       type: String,
     },
+    isPaid: {
+      type: Boolean,
+      default: false,
+    },
+    paidAt: {
+      type: Date,
+    },
     status: {
       type: String,
-      enum: ["created", "paid", "failed", "cancelled", "delivered", "out for delivery"],
+      enum: [
+        "created",
+        "paid",
+        "failed",
+        "cancelled",
+        "expired",
+        "delivered",
+        "out for delivery",
+      ],
       default: "created",
-    }
+    },
   },
   {
     timestamps: true,
